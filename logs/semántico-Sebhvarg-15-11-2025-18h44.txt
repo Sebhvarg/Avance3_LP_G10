@@ -1,0 +1,2 @@
+Error semántico: Variable 'u' no declarada.
+{'variables': {'x': 'int', 'r': 'str'}, 'funciones': {}, 'tipos': {'str-funciones': ['len', 'push', 'contains', 'starts_with', 'ends_with', 'index_of', 'to_uppercase', 'to_lowercase', 'replace', 'substring', 'split', 'trim', 'chars', 'is_emptyconcat', 'parse', 'count']}, 'clases': {}}

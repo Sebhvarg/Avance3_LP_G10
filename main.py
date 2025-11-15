@@ -15,7 +15,7 @@ from Syntax.syntax import *
 #   Sebastian Holguin (Sebhvarg)
 #   Carlos Ronquillo (carrbrus)
 # ------------------------------------------------------------
-
+mensajes = []
 # ------------------------------------------------------------
 # Tabla de Símbolos
 tabla_simbolos = {
@@ -40,12 +40,10 @@ def p_asignacion(p):
     if len(p) == 6:
         nombre = p[2]
         tipo_var = p[4]
-        tabla_simbolos["variables"][nombre] = tipo_var
-        print(f"Variable '{nombre}' asignada con valor de tipo '{tipo_var}'")
-    else:
-        nombre = p[2]
-        tipo_var = None
-
+        
+        if tipo_var != None:
+            tabla_simbolos["variables"][nombre] = tipo_var
+            
 def p_valor(p):
      '''valor : CADENA
              | CARACTER
@@ -74,22 +72,56 @@ def p_valor(p):
              p[0] = tabla_simbolos["variables"][nombre]
          else:
              print(f"Error semántico: Variable '{nombre}' no declarada.")
-             p[0] = "undefined"
-     else:
-         p[0] = "unknown"
+             mensajes.append(f"Error semántico: Variable '{nombre}' no declarada.")
+            
             
                                         
 # Error rule for syntax errors
 def p_error(p):
-    print("Syntax error in input!")
+    print("Error semántico")
+    if p:
+        mensaje = f"Error semántico en la línea {p.lineno}, columna {p.lexpos}: Token inesperado '{p.value}'"
+        log_token(mensaje)
+    else:
+        mensaje = "Error semántico: Fin de archivo inesperado"
+        log_token(mensaje)
 parser = yacc.yacc(module=sys.modules[__name__])
 
-while True:
-   try:
-       s = input('arust > ')
-   except EOFError:
-       break
-   if not s: continue
-   result = parser.parse(s)
-   print(result)
-   print(tabla_simbolos)
+def log_token(mensaje):
+    usuario_git = get_git_user()
+    fecha_hora = datetime.datetime.now().strftime("%d-%m-%Y-%Hh%M")
+    log_dir = "logs"
+    os.makedirs(log_dir, exist_ok=True)
+    log_file_path = os.path.join(log_dir, f"semántico-{usuario_git}-{fecha_hora}.txt")
+    with open(log_file_path, 'a', encoding='utf-8') as log_file:
+        log_file.write(mensaje + "\n")
+
+if __name__ == "__main__":
+    print("Analizador Semántico: ")
+    if len(sys.argv) > 1:
+        archivo_entrada = sys.argv[1]
+    else:
+        archivo_entrada = input("Ingrese el nombre del archivo de entrada: ")
+        
+    try:
+        with open(archivo_entrada, 'r') as file:
+            data = file.read()
+        
+        parser.parse(data)
+        
+        while True:
+            if not mensajes:
+                
+                log_token(str(tabla_simbolos))
+                break
+            else:
+                mensaje = mensajes.pop(0)
+                log_token(mensaje)
+        print("Tabla de Símbolos:")
+        for var, tipo in tabla_simbolos["variables"].items():
+            print(f"Variable: {var}, Tipo: {tipo}")
+            
+    except FileNotFoundError:
+        print(f"Archivo no encontrado: {archivo_entrada}")
+        log_token(f"Archivo no encontrado: {archivo_entrada}")
+    
