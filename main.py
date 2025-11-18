@@ -19,15 +19,30 @@ mensajes = []
 # ------------------------------------------------------------
 # Tabla de Símbolos
 tabla_simbolos = {
-    "variables": {},
-    "funciones": {},
+    "variables": {"flag": {"tipo": "bool", "valor": True},
+    "letra": {"tipo": "char", "valor": 'A'},
+    "pi_aprox": {"tipo": "f64", "valor": 3.14159},
+    "numeros": {"tipo": "array_int", "valor": [1, 2, 3, 4]},
+    "palabras": {"tipo": "array_str", "valor": ["hola", "mundo"]},
+    "mensaje": {"tipo": "str", "valor": "Hola desde el test"},
+    "temperatura": {"tipo": "i32", "valor": -5},
+    "activo": {"tipo": "bool", "valor": False},
+    "contador_global": {"tipo": "i32", "valor": 0},},
+    "funciones": {"saludar": {"parametros": ["nombre"], "retorno": "str"},
+    "sumar": {"parametros": ["a", "b"], "retorno": "i32"},
+    "es_par": {"parametros": ["numero"], "retorno": "bool"},
+    "promedio": {"parametros": ["a", "b", "c"], "retorno": "f64"},
+    "longitud_arreglo": {"parametros": ["arreglo"], "retorno": "i32"},
+    "crear_usuario": {"parametros": ["nombre", "edad"], "retorno": "struct"},},
     "tipos": {
         "str-funciones": [
             "len", "push", "contains", "starts_with", 
             "ends_with", "index_of", "to_uppercase", 
             "to_lowercase", "replace", "substring",
             "split", "trim", "chars", "is_empty",
-            "concat", "parse", "count"
+            "concat", "parse", "count", "reverse",
+        "repeat",
+        "slice"
         ],
 
         
@@ -42,7 +57,10 @@ tabla_simbolos = {
             "sqrt", "round", "floor", "ceil", "trunc",
             "fract", "abs", "powi", "powf",
             "sin", "cos", "tan", "log", "log10", "log2",
-            "exp", "exp2"
+            "exp", "exp2","is_positive",
+            "is_negative",
+            "factorial"
+
         ],
 
         "tipos_numericos": [
@@ -78,6 +96,9 @@ metodos_str_especificaciones = {
     "concat": {"args": 1, "ret": "str"},
     "parse": {"args": 0, "ret": "int"},  # simplificación
     "count": {"args": 1, "ret": "usize"},
+    "reverse": {"args": 0, "ret": "str"},
+    "repeat": {"args": 1, "ret": "str"},
+    "slice": {"args": 2, "ret": "str"},
 }
 
 # Especificaciones de métodos numéricos: número de argumentos y tipo de retorno esperado
@@ -115,6 +136,10 @@ metodos_num_especificaciones = {
     "log2": {"args": 0, "ret": "float"},
     "exp": {"args": 0, "ret": "float"},
     "exp2": {"args": 0, "ret": "float"},
+    "is_positive": {"args": 0, "ret": "bool"},
+    "is_negative": {"args": 0, "ret": "bool"},
+    "factorial": {"args": 0, "ret": "int"},
+    
 }
 
 # Funciones auxiliares para validación semántica
