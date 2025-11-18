@@ -1,0 +1,8 @@
+Advertencia: Variable 'texto' declarada pero no usada.
+Advertencia: Variable 'numero' declarada pero no usada.
+Error semántico en la línea 3, columna 41: Token inesperado 'let'
+Error semántico en la línea 5, columna 75: Token inesperado 'let'
+Error semántico: Fin de archivo inesperado
+Error semántico: Variable 'numero' no ha sido declarada.
+{'variables': {'texto': {'tipo': 'str', 'const': False, 'mutable': False, 'usado': False}}, 'funciones': {}, 'tipos': {'str-funciones': ['len', 'push', 'contains', 'starts_with', 'ends_with', 'index_of', 'to_uppercase', 'to_lowercase', 'replace', 'substring', 'split', 'trim', 'chars', 'is_empty', 'concat', 'parse', 'count'], 'tipos_numericos': ['i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'f32', 'f64', 'isize', 'usize'], 'tipos_primitivos': ['bool', 'char', 'str']}, 'clases': {}, 'scope_actual': 'global', 'scopes': {'global': {}}}
+Advertencia: Variable 'texto' declarada pero no usada.

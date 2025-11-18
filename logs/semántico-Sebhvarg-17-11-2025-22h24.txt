@@ -1,0 +1,14 @@
+Error semántico: No se puede reasignar la variable inmutable 'x'. Use 'let mut' para variables mutables.
+Error semántico: No se puede modificar la constante 'PI'.
+Error semántico: Variable 'z' no ha sido declarada.
+Error semántico: Operación aritmética no válida. 'str' no es un tipo numérico.
+Error semántico: Tipos incompatibles en operación aritmética. No se puede operar 'int' con 'float'.
+Error semántico: Función 'funcion_inexistente' no ha sido declarada.
+{'variables': {'x': {'tipo': 'int', 'const': False, 'mutable': False, 'usado': False}, 'y': {'tipo': 'int', 'const': False, 'mutable': True, 'usado': False}, 'PI': {'tipo': 'float', 'const': True, 'mutable': False, 'usado': False}, 'suma': {'tipo': 'int', 'const': False, 'mutable': False, 'usado': False}, 'multiplicacion': {'tipo': 'int', 'const': False, 'mutable': False, 'usado': False}, 'cadena': {'tipo': 'str', 'const': False, 'mutable': False, 'usado': True}, 'entero': {'tipo': 'int', 'const': False, 'mutable': False, 'usado': True}, 'flotante': {'tipo': 'float', 'const': False, 'mutable': False, 'usado': True}, 'temp': {'tipo': 'int', 'const': False, 'mutable': False, 'usado': False}, 'no_usada': {'tipo': 'int', 'const': False, 'mutable': False, 'usado': False}}, 'funciones': {'calcular': {'params': [], 'retorno': None, 'definida': True}}, 'tipos': {'str-funciones': ['len', 'push', 'contains', 'starts_with', 'ends_with', 'index_of', 'to_uppercase', 'to_lowercase', 'replace', 'substring', 'split', 'trim', 'chars', 'is_empty', 'concat', 'parse', 'count'], 'tipos_numericos': ['i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'f32', 'f64', 'isize', 'usize'], 'tipos_primitivos': ['bool', 'char', 'str']}, 'clases': {}, 'scope_actual': 'global', 'scopes': {'global': {}}}
+Advertencia: Variable 'x' declarada pero no usada.
+Advertencia: Variable 'y' declarada pero no usada.
+Advertencia: Variable 'PI' declarada pero no usada.
+Advertencia: Variable 'suma' declarada pero no usada.
+Advertencia: Variable 'multiplicacion' declarada pero no usada.
+Advertencia: Variable 'temp' declarada pero no usada.
+Advertencia: Variable 'no_usada' declarada pero no usada.

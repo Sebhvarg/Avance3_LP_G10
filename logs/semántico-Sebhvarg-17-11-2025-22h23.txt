@@ -1,0 +1,21 @@
+Error semántico en la línea 6, columna 232: Token inesperado 'println!'
+Error semántico en la línea 6, columna 269: Token inesperado ';'
+Error semántico en la línea 15, columna 592: Token inesperado 'println!'
+Error semántico en la línea 15, columna 631: Token inesperado ';'
+Error semántico en la línea 21, columna 855: Token inesperado 'from'
+Error semántico en la línea 21, columna 871: Token inesperado ';'
+Error semántico en la línea 23, columna 941: Token inesperado 'println!'
+Error semántico en la línea 23, columna 980: Token inesperado ';'
+Error semántico en la línea 28, columna 1145: Token inesperado 'from'
+Error semántico en la línea 28, columna 1157: Token inesperado ';'
+Error semántico en la línea 30, columna 1210: Token inesperado 'println!'
+Error semántico en la línea 30, columna 1249: Token inesperado ';'
+Error semántico en la línea 34, columna 1287: Token inesperado 'laughing'
+Error semántico en la línea 36, columna 1323: Token inesperado 'rofl'
+Error semántico: Fin de archivo inesperado
+Error semántico: Variable 'resultado1' no ha sido declarada.
+Error semántico: Tipo incompatible. Variable 'edad' declarada como 'i32' pero recibe 'int'.
+Error semántico: Variable 'resultado2' no ha sido declarada.
+Error semántico: Variable 'resultado3' no ha sido declarada.
+Error semántico: Variable 'resultado4' no ha sido declarada.
+{'variables': {}, 'funciones': {}, 'tipos': {'str-funciones': ['len', 'push', 'contains', 'starts_with', 'ends_with', 'index_of', 'to_uppercase', 'to_lowercase', 'replace', 'substring', 'split', 'trim', 'chars', 'is_empty', 'concat', 'parse', 'count'], 'tipos_numericos': ['i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'f32', 'f64', 'isize', 'usize'], 'tipos_primitivos': ['bool', 'char', 'str']}, 'clases': {}, 'scope_actual': 'global', 'scopes': {'global': {}}}
