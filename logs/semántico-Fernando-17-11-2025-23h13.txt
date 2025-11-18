@@ -1,0 +1,32 @@
+Error semántico en la línea 6, columna 178: Token inesperado '.'
+Error semántico en la línea 62, columna 2367: Token inesperado '.'
+Error semántico en la línea 67, columna 2518: Token inesperado '.'
+Error semántico en la línea 70, columna 2673: Token inesperado '.'
+Error semántico en la línea 75, columna 2881: Token inesperado '.'
+Error semántico en la línea 77, columna 3003: Token inesperado '}'
+Error semántico: Función 'to_string' no ha sido declarada.
+Error semántico: Tipo incompatible. Variable 'precio' declarada como 'f32' pero recibe 'float'.
+Error semántico: la variable 'saludo' no ha sido definida.
+Error semántico: la variable 'saludo' no ha sido definida.
+Error semántico: la variable 'no_existe' no ha sido definida.
+Error semántico: la variable 'texto' no ha sido definida.
+Error semántico: la variable 'edad' no es de tipo 'str'.
+Error semántico: la variable 'precio' no ha sido definida.
+Error semántico: la variable 'contador' no es de tipo 'str'.
+Error semántico: el método 'unknown' no es parte de las funciones de string.
+Error semántico: la variable 'saludo' no ha sido definida.
+Error semántico: el método 'len' no acepta argumentos.
+Error semántico: la variable 'saludo' no ha sido definida.
+Error semántico: la variable 'saludo' no ha sido definida.
+Error semántico: No se puede reasignar la variable inmutable 'nombre'. Use 'let mut' para variables mutables.
+Error semántico: No se puede reasignar la variable inmutable 'edad'. Use 'let mut' para variables mutables.
+Error semántico: Variable 'precio' no ha sido declarada.
+Error semántico: Variable 'edad' ya fue declarada previamente.
+Error semántico: Variable 'edad' ya fue declarada previamente.
+Error semántico: la variable 'edad' no es de tipo 'str'.
+Error semántico: Función 'len' no ha sido declarada.
+Error semántico: Función 'contains' no ha sido declarada.
+Error semántico: Función 'to_uppercase' no ha sido declarada.
+Error semántico: Función 'len' no ha sido declarada.
+{'variables': {'nombre': {'tipo': 'str', 'const': False, 'mutable': False, 'usado': False}, 'edad': {'tipo': 'int', 'const': False, 'mutable': False, 'usado': True}, 'contador': {'tipo': 'int', 'const': False, 'mutable': True, 'usado': True}}, 'funciones': {}, 'tipos': {'str-funciones': ['len', 'push', 'contains', 'starts_with', 'ends_with', 'index_of', 'to_uppercase', 'to_lowercase', 'replace', 'substring', 'split', 'trim', 'chars', 'is_empty', 'concat', 'parse', 'count'], 'num-funciones': ['to_string', 'to_le', 'to_be', 'to_ne', 'swap_bytes', 'to_be_bytes', 'to_le_bytes', 'to_ne_bytes', 'abs', 'signum', 'pow', 'saturating_add', 'saturating_sub', 'saturating_mul', 'max', 'min', 'clamp', 'sqrt', 'round', 'floor', 'ceil', 'trunc', 'fract', 'abs', 'powi', 'powf', 'sin', 'cos', 'tan', 'log', 'log10', 'log2', 'exp', 'exp2'], 'tipos_numericos': ['i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'f32', 'f64', 'isize', 'usize'], 'tipos_primitivos': ['bool', 'char', 'str']}, 'clases': {}, 'scope_actual': 'global', 'scopes': {'global': {}}}
+Advertencia: Variable 'nombre' declarada pero no usada.

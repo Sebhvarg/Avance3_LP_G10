@@ -22,17 +22,38 @@ tabla_simbolos = {
     "variables": {},
     "funciones": {},
     "tipos": {
-        "str-funciones": ["len", "push", "contains", "starts_with", 
-                          "ends_with", "index_of", "to_uppercase", 
-                          "to_lowercase", "replace", "substring",
-                          "split", "trim", "chars", "is_empty",
-                          "concat", "parse", "count"
-                          ],
-        "tipos_numericos": ["i8", "i16", "i32", "i64", "i128", 
-                           "u8", "u16", "u32", "u64", "u128",
-                           "f32", "f64", "isize", "usize"],
+        "str-funciones": [
+            "len", "push", "contains", "starts_with", 
+            "ends_with", "index_of", "to_uppercase", 
+            "to_lowercase", "replace", "substring",
+            "split", "trim", "chars", "is_empty",
+            "concat", "parse", "count"
+        ],
+
+        
+        "num-funciones": [
+            "to_string", "to_le", "to_be", "to_ne",
+            "swap_bytes", "to_be_bytes", "to_le_bytes",
+            "to_ne_bytes",
+            "abs", "signum",
+            "pow", "saturating_add", "saturating_sub",
+            "saturating_mul",
+            "max", "min", "clamp",
+            "sqrt", "round", "floor", "ceil", "trunc",
+            "fract", "abs", "powi", "powf",
+            "sin", "cos", "tan", "log", "log10", "log2",
+            "exp", "exp2"
+        ],
+
+        "tipos_numericos": [
+            "i8", "i16", "i32", "i64", "i128",
+            "u8", "u16", "u32", "u64", "u128",
+            "f32", "f64", "isize", "usize"
+        ],
+
         "tipos_primitivos": ["bool", "char", "str"],
-        },
+    },
+
     "clases": {}, 
     "scope_actual": "global",
     "scopes": {"global": {}}
@@ -57,6 +78,43 @@ metodos_str_especificaciones = {
     "concat": {"args": 1, "ret": "str"},
     "parse": {"args": 0, "ret": "int"},  # simplificación
     "count": {"args": 1, "ret": "usize"},
+}
+
+# Especificaciones de métodos numéricos: número de argumentos y tipo de retorno esperado
+metodos_num_especificaciones = {
+    "to_string": {"args": 0, "ret": "str"},
+    "to_le": {"args": 0, "ret": "int"},
+    "to_be": {"args": 0, "ret": "int"},
+    "to_ne": {"args": 0, "ret": "int"},
+    "swap_bytes": {"args": 0, "ret": "int"},
+    "to_be_bytes": {"args": 0, "ret": "vector"},
+    "to_le_bytes": {"args": 0, "ret": "vector"},
+    "to_ne_bytes": {"args": 0, "ret": "vector"},
+    "abs": {"args": 0, "ret": "int"},
+    "signum": {"args": 0, "ret": "int"},
+    "pow": {"args": 1, "ret": "int"},
+    "saturating_add": {"args": 1, "ret": "int"},
+    "saturating_sub": {"args": 1, "ret": "int"},
+    "saturating_mul": {"args": 1, "ret": "int"},
+    "max": {"args": 1, "ret": "int"},
+    "min": {"args": 1, "ret": "int"},
+    "clamp": {"args": 2, "ret": "int"},
+    "sqrt": {"args": 0, "ret": "float"},
+    "round": {"args": 0, "ret": "int"},
+    "floor": {"args": 0, "ret": "float"},
+    "ceil": {"args": 0, "ret": "float"},
+    "trunc": {"args": 0, "ret": "float"},
+    "fract": {"args": 0, "ret": "float"},
+    "powi": {"args": 1, "ret": "float"},
+    "powf": {"args": 1, "ret": "float"},
+    "sin": {"args": 0, "ret": "float"},
+    "cos": {"args": 0, "ret": "float"},
+    "tan": {"args": 0, "ret": "float"},
+    "log": {"args": 1, "ret": "float"},
+    "log10": {"args": 0, "ret": "float"},
+    "log2": {"args": 0, "ret": "float"},
+    "exp": {"args": 0, "ret": "float"},
+    "exp2": {"args": 0, "ret": "float"},
 }
 
 # Funciones auxiliares para validación semántica
@@ -367,31 +425,55 @@ def p_asignacion_metodo_clase(p):
         return
 
     tipo_var = obtener_tipo_variable(nombre)
-    if tipo_var != "str":
-        mensaje = f"Error semántico: la variable '{nombre}' no es de tipo 'str'."
-        print(mensaje)
-        mensajes.append(mensaje)
-        return
-
-    if metodo not in tabla_simbolos["tipos"]["str-funciones"]:
-        mensaje = f"Error semántico: el método '{metodo}' no es parte de las funciones de string."
-        print(mensaje)
-        mensajes.append(mensaje)
-        return
-
-    # Validar número de argumentos (aproximado: 0 vs al menos 1)
-    especificacion = metodos_str_especificaciones.get(metodo)
-    if especificacion:
-        args_requeridos = especificacion["args"]
-        tiene_args = (len(p) == 8)  # con repite_valores
-        if args_requeridos == 0 and tiene_args:
-            mensaje = f"Error semántico: el método '{metodo}' no acepta argumentos."
+    
+    # Verificar si es string
+    if tipo_var == "str":
+        if metodo not in tabla_simbolos["tipos"]["str-funciones"]:
+            mensaje = f"Error semántico: el método '{metodo}' no es parte de las funciones de string."
             print(mensaje)
             mensajes.append(mensaje)
-        if args_requeridos > 0 and not tiene_args:
-            mensaje = f"Error semántico: el método '{metodo}' requiere al menos {args_requeridos} argumento(s)."
+            return
+
+        # Validar número de argumentos (aproximado: 0 vs al menos 1)
+        especificacion = metodos_str_especificaciones.get(metodo)
+        if especificacion:
+            args_requeridos = especificacion["args"]
+            tiene_args = (len(p) == 8)  # con repite_valores
+            if args_requeridos == 0 and tiene_args:
+                mensaje = f"Error semántico: el método '{metodo}' no acepta argumentos."
+                print(mensaje)
+                mensajes.append(mensaje)
+            if args_requeridos > 0 and not tiene_args:
+                mensaje = f"Error semántico: el método '{metodo}' requiere al menos {args_requeridos} argumento(s)."
+                print(mensaje)
+                mensajes.append(mensaje)
+    
+    # Verificar si es numérico
+    elif es_tipo_numerico(tipo_var):
+        if metodo not in tabla_simbolos["tipos"]["num-funciones"]:
+            mensaje = f"Error semántico: el método '{metodo}' no es parte de las funciones numéricas."
             print(mensaje)
             mensajes.append(mensaje)
+            return
+
+        # Validar número de argumentos
+        especificacion = metodos_num_especificaciones.get(metodo)
+        if especificacion:
+            args_requeridos = especificacion["args"]
+            tiene_args = (len(p) == 8)  # con repite_valores
+            if args_requeridos == 0 and tiene_args:
+                mensaje = f"Error semántico: el método '{metodo}' no acepta argumentos."
+                print(mensaje)
+                mensajes.append(mensaje)
+            if args_requeridos > 0 and not tiene_args:
+                mensaje = f"Error semántico: el método '{metodo}' requiere al menos {args_requeridos} argumento(s)."
+                print(mensaje)
+                mensajes.append(mensaje)
+    
+    else:
+        mensaje = f"Error semántico: la variable '{nombre}' de tipo '{tipo_var}' no soporta métodos."
+        print(mensaje)
+        mensajes.append(mensaje)
 
 def p_llamada_funcion_sin_puntocoma(p):
     '''llamada_funcion_sin_puntocoma : IDENTIFICADOR PAREN_IZQ PAREN_DER
@@ -407,7 +489,7 @@ def p_llamada_funcion_sin_puntocoma(p):
         # Retornar el tipo de retorno de la función
         p[0] = tabla_simbolos["funciones"][nombre].get("retorno")
 
-# REGLA: Métodos sobre strings (acceso con punto)
+# REGLA: Métodos sobre strings y números (acceso con punto)
 def p_llamada_metodo_clase(p):
     '''valor : IDENTIFICADOR PUNTO IDENTIFICADOR PAREN_IZQ PAREN_DER
              | IDENTIFICADOR PUNTO IDENTIFICADOR PAREN_IZQ repite_valores PAREN_DER'''
@@ -423,37 +505,64 @@ def p_llamada_metodo_clase(p):
 
     # Obtener tipo declarado de la variable
     tipo_var = obtener_tipo_variable(nombre)
-    if tipo_var != "str":
-        mensaje = f"Error semántico: la variable '{nombre}' no es de tipo 'str'."
+    
+    # Verificar si es string
+    if tipo_var == "str":
+        if metodo not in tabla_simbolos["tipos"]["str-funciones"]:
+            mensaje = f"Error semántico: el método '{metodo}' no es parte de las funciones de string."
+            print(mensaje)
+            mensajes.append(mensaje)
+            p[0] = None
+            return
+
+        # Validación de número de argumentos (aproximado: 0 vs al menos 1)
+        especificacion = metodos_str_especificaciones.get(metodo)
+        if especificacion:
+            args_requeridos = especificacion["args"]
+            tiene_args = (len(p) == 7)  # con repite_valores
+            if args_requeridos == 0 and tiene_args:
+                mensaje = f"Error semántico: el método '{metodo}' no acepta argumentos."
+                print(mensaje)
+                mensajes.append(mensaje)
+            if args_requeridos > 0 and not tiene_args:
+                mensaje = f"Error semántico: el método '{metodo}' requiere al menos {args_requeridos} argumento(s)."
+                print(mensaje)
+                mensajes.append(mensaje)
+
+        # Asignar tipo de retorno según especificación
+        p[0] = especificacion["ret"] if especificacion else "str"
+    
+    # Verificar si es numérico
+    elif es_tipo_numerico(tipo_var):
+        if metodo not in tabla_simbolos["tipos"]["num-funciones"]:
+            mensaje = f"Error semántico: el método '{metodo}' no es parte de las funciones numéricas."
+            print(mensaje)
+            mensajes.append(mensaje)
+            p[0] = None
+            return
+
+        # Validación de número de argumentos
+        especificacion = metodos_num_especificaciones.get(metodo)
+        if especificacion:
+            args_requeridos = especificacion["args"]
+            tiene_args = (len(p) == 7)  # con repite_valores
+            if args_requeridos == 0 and tiene_args:
+                mensaje = f"Error semántico: el método '{metodo}' no acepta argumentos."
+                print(mensaje)
+                mensajes.append(mensaje)
+            if args_requeridos > 0 and not tiene_args:
+                mensaje = f"Error semántico: el método '{metodo}' requiere al menos {args_requeridos} argumento(s)."
+                print(mensaje)
+                mensajes.append(mensaje)
+
+        # Asignar tipo de retorno según especificación
+        p[0] = especificacion["ret"] if especificacion else tipo_var
+    
+    else:
+        mensaje = f"Error semántico: la variable '{nombre}' de tipo '{tipo_var}' no soporta métodos."
         print(mensaje)
         mensajes.append(mensaje)
         p[0] = None
-        return
-
-    # Validar método permitido para strings
-    if metodo not in tabla_simbolos["tipos"]["str-funciones"]:
-        mensaje = f"Error semántico: el método '{metodo}' no es parte de las funciones de string."
-        print(mensaje)
-        mensajes.append(mensaje)
-        p[0] = None
-        return
-
-    # Validación de número de argumentos (aproximado: 0 vs al menos 1)
-    especificacion = metodos_str_especificaciones.get(metodo)
-    if especificacion:
-        args_requeridos = especificacion["args"]
-        tiene_args = (len(p) == 7)  # con repite_valores
-        if args_requeridos == 0 and tiene_args:
-            mensaje = f"Error semántico: el método '{metodo}' no acepta argumentos."
-            print(mensaje)
-            mensajes.append(mensaje)
-        if args_requeridos > 0 and not tiene_args:
-            mensaje = f"Error semántico: el método '{metodo}' requiere al menos {args_requeridos} argumento(s)."
-            print(mensaje)
-            mensajes.append(mensaje)
-
-    # Asignar tipo de retorno según especificación
-    p[0] = especificacion["ret"] if especificacion else "str"
 
 def p_argumentos_string_methods(p):
     '''argumentos : valor

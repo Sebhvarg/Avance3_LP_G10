@@ -1,0 +1,8 @@
+Error semántico: el método 'unknown' no es parte de las funciones numéricas.
+Error semántico: el método 'abs' no acepta argumentos.
+Error semántico: el método 'pow' requiere al menos 1 argumento(s).
+Error semántico: el método 'abs' no es parte de las funciones de string.
+{'variables': {'x': {'tipo': 'int', 'const': False, 'mutable': False, 'usado': False}, 'y': {'tipo': 'float', 'const': False, 'mutable': True, 'usado': False}, 'nombre': {'tipo': 'str', 'const': False, 'mutable': False, 'usado': False}}, 'funciones': {'main': {'params': [], 'retorno': None, 'definida': True}}, 'tipos': {'str-funciones': ['len', 'push', 'contains', 'starts_with', 'ends_with', 'index_of', 'to_uppercase', 'to_lowercase', 'replace', 'substring', 'split', 'trim', 'chars', 'is_empty', 'concat', 'parse', 'count'], 'num-funciones': ['to_string', 'to_le', 'to_be', 'to_ne', 'swap_bytes', 'to_be_bytes', 'to_le_bytes', 'to_ne_bytes', 'abs', 'signum', 'pow', 'saturating_add', 'saturating_sub', 'saturating_mul', 'max', 'min', 'clamp', 'sqrt', 'round', 'floor', 'ceil', 'trunc', 'fract', 'abs', 'powi', 'powf', 'sin', 'cos', 'tan', 'log', 'log10', 'log2', 'exp', 'exp2'], 'tipos_numericos': ['i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'f32', 'f64', 'isize', 'usize'], 'tipos_primitivos': ['bool', 'char', 'str']}, 'clases': {}, 'scope_actual': 'global', 'scopes': {'global': {}}}
+Advertencia: Variable 'x' declarada pero no usada.
+Advertencia: Variable 'y' declarada pero no usada.
+Advertencia: Variable 'nombre' declarada pero no usada.
