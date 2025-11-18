@@ -1,0 +1,6 @@
+Error semántico: el método 'unknown' no es parte de las funciones de string.
+Error semántico: el método 'len' no acepta argumentos.
+Error semántico: la variable 'x' no es de tipo 'str'.
+{'variables': {'nombre': {'tipo': 'str', 'const': False, 'mutable': False, 'usado': False}, 'x': {'tipo': 'int', 'const': False, 'mutable': True, 'usado': False}}, 'funciones': {'main': {'params': [], 'retorno': None, 'definida': True}}, 'tipos': {'str-funciones': ['len', 'push', 'contains', 'starts_with', 'ends_with', 'index_of', 'to_uppercase', 'to_lowercase', 'replace', 'substring', 'split', 'trim', 'chars', 'is_empty', 'concat', 'parse', 'count'], 'tipos_numericos': ['i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'f32', 'f64', 'isize', 'usize'], 'tipos_primitivos': ['bool', 'char', 'str']}, 'clases': {}, 'scope_actual': 'global', 'scopes': {'global': {}}}
+Advertencia: Variable 'nombre' declarada pero no usada.
+Advertencia: Variable 'x' declarada pero no usada.

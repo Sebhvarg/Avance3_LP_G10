@@ -38,6 +38,27 @@ tabla_simbolos = {
     "scopes": {"global": {}}
 }
 
+# Especificaciones de métodos de string: número de argumentos y tipo de retorno esperado
+metodos_str_especificaciones = {
+    "len": {"args": 0, "ret": "usize"},
+    "push": {"args": 1, "ret": "str"},
+    "contains": {"args": 1, "ret": "bool"},
+    "starts_with": {"args": 1, "ret": "bool"},
+    "ends_with": {"args": 1, "ret": "bool"},
+    "index_of": {"args": 1, "ret": "isize"},
+    "to_uppercase": {"args": 0, "ret": "str"},
+    "to_lowercase": {"args": 0, "ret": "str"},
+    "replace": {"args": 2, "ret": "str"},
+    "substring": {"args": 2, "ret": "str"},
+    "split": {"args": 1, "ret": "vector"},
+    "trim": {"args": 0, "ret": "str"},
+    "chars": {"args": 0, "ret": "vector"},
+    "is_empty": {"args": 0, "ret": "bool"},
+    "concat": {"args": 1, "ret": "str"},
+    "parse": {"args": 0, "ret": "int"},  # simplificación
+    "count": {"args": 1, "ret": "usize"},
+}
+
 # Funciones auxiliares para validación semántica
 def son_tipos_compatibles(tipo1, tipo2):
     """Verifica si dos tipos son compatibles para operaciones"""
@@ -333,6 +354,45 @@ def p_llamada_funcion(p):
         print(mensaje)
         mensajes.append(mensaje)
 
+def p_asignacion_metodo_clase(p):
+    '''asignacion : IDENTIFICADOR PUNTO IDENTIFICADOR PAREN_IZQ PAREN_DER PUNTOCOMA
+                  | IDENTIFICADOR PUNTO IDENTIFICADOR PAREN_IZQ repite_valores PAREN_DER PUNTOCOMA'''
+    nombre = p[1]
+    metodo = p[3]
+
+    if nombre not in tabla_simbolos["variables"]:
+        mensaje = f"Error semántico: la variable '{nombre}' no ha sido definida."
+        print(mensaje)
+        mensajes.append(mensaje)
+        return
+
+    tipo_var = obtener_tipo_variable(nombre)
+    if tipo_var != "str":
+        mensaje = f"Error semántico: la variable '{nombre}' no es de tipo 'str'."
+        print(mensaje)
+        mensajes.append(mensaje)
+        return
+
+    if metodo not in tabla_simbolos["tipos"]["str-funciones"]:
+        mensaje = f"Error semántico: el método '{metodo}' no es parte de las funciones de string."
+        print(mensaje)
+        mensajes.append(mensaje)
+        return
+
+    # Validar número de argumentos (aproximado: 0 vs al menos 1)
+    especificacion = metodos_str_especificaciones.get(metodo)
+    if especificacion:
+        args_requeridos = especificacion["args"]
+        tiene_args = (len(p) == 8)  # con repite_valores
+        if args_requeridos == 0 and tiene_args:
+            mensaje = f"Error semántico: el método '{metodo}' no acepta argumentos."
+            print(mensaje)
+            mensajes.append(mensaje)
+        if args_requeridos > 0 and not tiene_args:
+            mensaje = f"Error semántico: el método '{metodo}' requiere al menos {args_requeridos} argumento(s)."
+            print(mensaje)
+            mensajes.append(mensaje)
+
 def p_llamada_funcion_sin_puntocoma(p):
     '''llamada_funcion_sin_puntocoma : IDENTIFICADOR PAREN_IZQ PAREN_DER
                                      | IDENTIFICADOR PAREN_IZQ repite_valores PAREN_DER'''
@@ -346,6 +406,60 @@ def p_llamada_funcion_sin_puntocoma(p):
     else:
         # Retornar el tipo de retorno de la función
         p[0] = tabla_simbolos["funciones"][nombre].get("retorno")
+
+# REGLA: Métodos sobre strings (acceso con punto)
+def p_llamada_metodo_clase(p):
+    '''valor : IDENTIFICADOR PUNTO IDENTIFICADOR PAREN_IZQ PAREN_DER
+             | IDENTIFICADOR PUNTO IDENTIFICADOR PAREN_IZQ repite_valores PAREN_DER'''
+    nombre = p[1]
+    metodo = p[3]
+
+    if nombre not in tabla_simbolos["variables"]:
+        mensaje = f"Error semántico: la variable '{nombre}' no ha sido definida."
+        print(mensaje)
+        mensajes.append(mensaje)
+        p[0] = None
+        return
+
+    # Obtener tipo declarado de la variable
+    tipo_var = obtener_tipo_variable(nombre)
+    if tipo_var != "str":
+        mensaje = f"Error semántico: la variable '{nombre}' no es de tipo 'str'."
+        print(mensaje)
+        mensajes.append(mensaje)
+        p[0] = None
+        return
+
+    # Validar método permitido para strings
+    if metodo not in tabla_simbolos["tipos"]["str-funciones"]:
+        mensaje = f"Error semántico: el método '{metodo}' no es parte de las funciones de string."
+        print(mensaje)
+        mensajes.append(mensaje)
+        p[0] = None
+        return
+
+    # Validación de número de argumentos (aproximado: 0 vs al menos 1)
+    especificacion = metodos_str_especificaciones.get(metodo)
+    if especificacion:
+        args_requeridos = especificacion["args"]
+        tiene_args = (len(p) == 7)  # con repite_valores
+        if args_requeridos == 0 and tiene_args:
+            mensaje = f"Error semántico: el método '{metodo}' no acepta argumentos."
+            print(mensaje)
+            mensajes.append(mensaje)
+        if args_requeridos > 0 and not tiene_args:
+            mensaje = f"Error semántico: el método '{metodo}' requiere al menos {args_requeridos} argumento(s)."
+            print(mensaje)
+            mensajes.append(mensaje)
+
+    # Asignar tipo de retorno según especificación
+    p[0] = especificacion["ret"] if especificacion else "str"
+
+def p_argumentos_string_methods(p):
+    '''argumentos : valor
+                  | valor COMA argumentos
+
+    '''
 
 # REGLA 17: Mapeo de tipo de dato (hook semántico)
 def p_tipo_dato(p):
